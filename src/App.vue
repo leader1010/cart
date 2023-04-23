@@ -8,6 +8,7 @@
            :price="item.goods_price"
            :count="item.goods_count"
            :checked="item.goods_state"
+           @countChange="onGoodsCountChange"
   ></EsGoods>
 </template>
 
@@ -35,6 +36,14 @@ export default {
       if (res.status !== 200) return alert('数据请求失败！')
       this.goodslist = res.list
     },
+
+    // 监听商品数量变化的事件
+    onGoodsCountChange(e) {
+      const findResult = this.goodslist.find(x => x.id === e.id)
+      if (findResult) {
+        findResult.goods_count = e.value
+      }
+    }
   },
 
 

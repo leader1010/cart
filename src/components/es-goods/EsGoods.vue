@@ -4,21 +4,21 @@
       <!--      <input type="checkbox" name="" id="">-->
       <!--      <img src="" alt="">-->
       <div class="custom-control custom-checkbox">
-      <input class="custom-control-input" type="checkbox" value="" :id="id">
-      <label class="custom-control-label" :for="id">
-        <img :src="thumb" alt="商品图片" class="thumb">
-      </label>
+        <input class="custom-control-input" type="checkbox" value="" :id="id">
+        <label class="custom-control-label" :for="id">
+          <img :src="thumb" alt="商品图片" class="thumb">
+        </label>
       </div>
     </div>
 
 
     <div class="right">
-      <div class="top">{{title}}111</div>
+      <div class="top">{{ title }}111</div>
       <div class="bottom">
-        <div class="price">¥{{price}}</div>
+        <div class="price">¥{{ price }}</div>
         <div class="count">
         </div>
-
+        <es-counter :num="count" :min="1" @numChange="getNumber"></es-counter>
 
       </div>
 
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import EsCounter from "../es-counter/EsCounter.vue";
+
 export default {
   name: "EsGoods",
   props: {
@@ -55,9 +57,22 @@ export default {
     checked: {
       type: Boolean,
     }
+  },
+  emits: ['countChange'],
+
+  methods: {
+    // 监听数量值的变化
+    getNumber(num) {
+      this.$emit('countChange', {
+        id: this.id,
+        value: num
+      })
+    }
+  },
+
+  components: {
+    EsCounter
   }
-
-
 
 
 }
@@ -75,6 +90,7 @@ export default {
   // 左侧图片的样式
   .left {
     margin-right: 10px;
+
     .thumb {
       display: block;
       width: 100px;
@@ -82,19 +98,23 @@ export default {
       background-color: #efefef;
     }
   }
+
   // 右侧商品名称、单价、数量的样式
   .right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
+
     .top {
       font-weight: bold;
     }
+
     .bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .price {
         color: red;
         font-weight: bold;
