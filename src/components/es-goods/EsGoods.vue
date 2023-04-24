@@ -4,7 +4,7 @@
       <!--      <input type="checkbox" name="" id="">-->
       <!--      <img src="" alt="">-->
       <div class="custom-control custom-checkbox">
-        <input class="custom-control-input" type="checkbox" value="" :id="id">
+        <input class="custom-control-input" type="checkbox" :checked="checked" :id="id" @change="onCheckBoxChange">
         <label class="custom-control-label" :for="id">
           <img :src="thumb" alt="商品图片" class="thumb">
         </label>
@@ -58,9 +58,20 @@ export default {
       type: Boolean,
     }
   },
-  emits: ['countChange'],
+  emits: ['countChange', 'stateChange'],
 
   methods: {
+    // this 当前组件示例 e.target为触发事件的dom元素
+    onCheckBoxChange(e) {
+      this.$emit(
+          'stateChange', {
+            id: this.id,
+            value: e.target.checked
+          }
+      )
+    },
+
+
     // 监听数量值的变化
     getNumber(num) {
       this.$emit('countChange', {
